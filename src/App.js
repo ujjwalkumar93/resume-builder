@@ -7,24 +7,29 @@ import LandingPage from './components/LandingPage';
 import ResumeCreator from './components/ResumeCreator';
 import PageNotFound from './components/PageNotFound'
 import { theme } from './theme';
+import { Provider } from 'react-redux';
+import store  from './store/store';
 
 
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <Router>
-        {/* <ThemeProvider theme={theme}></ThemeProvider> */}
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/create-resume" element={<ResumeCreator />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-        
-      </Router>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <Router>
+          {/* <ThemeProvider theme={theme}></ThemeProvider> */}
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/create-resume" element={<ResumeCreator />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
 
-    </ThemeProvider>
+        </Router>
+
+      </ThemeProvider>
+    </Provider>
+
 
 
   );
