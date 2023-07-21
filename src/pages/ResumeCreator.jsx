@@ -13,8 +13,9 @@ import {
     useMediaQuery
 } from "@mui/material"
 
-import PersonalDetails from "./userInput/PersonalDetails";
-import ExperianceDetail from "./userInput/ExperianceDetail"
+import PersonalDetails from "../components/userInput/PersonalDetails";
+import ExperianceDetail from "../components/userInput/ExperianceDetail";
+import TemplateOne from "../components/resumeTemplate/TemplateOne";
 export default function ResumeCreator() {
     const [currentPage, setCurrentPage] = useState(1);
     const steps = [
@@ -28,13 +29,10 @@ export default function ResumeCreator() {
         <Box>
             <Grid container>
                 <Grid item xs={12} sm={6} md={6}>
-                    <Typography>Left1</Typography>
-                </Grid>
-                <Grid item xs={12} sm={6} md={6} >
                     <Paper
-                        // height={window.innerHeight}
                         sx={{
                             paddingTop: "3rem",
+                            paddingLeft: '3rem',
                             minHeight: '100vh'
                         }}
                     >
@@ -88,6 +86,10 @@ export default function ResumeCreator() {
 
                     </Paper>
                 </Grid>
+                <Grid item xs={12} sm={6} md={6}>
+                    <TemplateOne />
+                </Grid>
+
             </Grid>
 
         </Box>
@@ -96,8 +98,8 @@ export default function ResumeCreator() {
 const GetCurrentComponent = ({ pageIndex }) => {
     switch (pageIndex) {
         case 1:
-            return <PersonalDetails/>
+            return <PersonalDetails />
         case 2:
-            return <ExperianceDetail/>
+            return <ExperianceDetail />
     }
 }

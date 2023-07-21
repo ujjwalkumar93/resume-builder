@@ -4,15 +4,74 @@ import {
     TextField,
     Stack,
     useMediaQuery,
-    Checkbox
+    Checkbox,
+    Card,
+    Paper,
+    IconButton,
+    Button
 } from "@mui/material"
 
+import DeleteIcon from '@mui/icons-material/Delete';
+import SaveIcon from '@mui/icons-material/Save';
+import ExperianceCard from "../ExperianceCard";
+
 const ExperianceDetail = () => {
-    const [isChecked, setIsChecked] = useState(false)
-    const largeScreen = useMediaQuery(theme => theme.breakpoints.up('md'));
+    const x = [
+        {
+            designation: "Software developer",
+            company: 'INE',
+            duration: 'Sep 2022 - Present (10 months)'
+        },
+        {
+            designation: "Software developer",
+            company: 'INE',
+            duration: 'Sep 2022 - Present (10 months)'
+        },
+        {
+            designation: "Software developer",
+            company: 'INE',
+            duration: 'Sep 2022 - Present (10 months)'
+        },
+        {
+            designation: "Software developer",
+            company: 'INE',
+            duration: 'Sep 2022 - Present (10 months)'
+        }
+    ]
     return (
         <>
             <Typography p={1} paddingTop={3} variant="h5"><b>Add your <span style={{ color: '#ff6d05' }}>experiance</span></b></Typography>
+            {/* <Stack direction={'row'} spacing={3} margin={1} flexWrap={'wrap'}> */}
+                {
+                    x.map(e => {
+                        return (
+                            <ExperianceCard data={e} />
+                        )
+                    })}
+            {/* </Stack> */}
+            <Experiance />
+        </>
+
+    )
+}
+
+const Experiance = () => {
+    const [isChecked, setIsChecked] = useState(false)
+    const largeScreen = useMediaQuery(theme => theme.breakpoints.up('md'));
+    const [jobTitle, setJobTitle] = useState();
+    const [employer, setEmployer] = useState();
+    const [city, setCity] = useState();
+    const [fromDate, setFromDate] = useState();
+    const [toDate, setToDate] = useState();
+
+    return (
+        <Paper elevation={3} sx={{
+            paddingLeft: '3rem',
+            paddingRight: '3rem',
+            paddingTop: '2rem',
+            paddingBottom: '2rem',
+            marginRight: '3rem'
+        }}>
             <Stack direction={largeScreen ? "row" : "column"} spacing={3} p={1}>
                 <TextField
                     fullWidth
@@ -35,7 +94,7 @@ const ExperianceDetail = () => {
                     required
                     autoComplete='off'
                     color="secondary"
-                    label="City"
+                    label="City & State"
                 />
                 <TextField
                     fullWidth
@@ -75,7 +134,15 @@ const ExperianceDetail = () => {
                     }}
                 />
             </Stack>
-        </>
+            <Stack direction={'row-reverse'} alignItems={'flex-end'} spacing={3} >
+                <Button variant="outlined" endIcon={<SaveIcon />} color="secondary">
+                    Save
+                </Button>
+                <Button variant="outlined" endIcon={<DeleteIcon />}>
+                    Discard
+                </Button>
+            </Stack>
+        </Paper>
     )
 }
 

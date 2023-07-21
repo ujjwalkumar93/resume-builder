@@ -3,9 +3,9 @@
 import { ThemeProvider } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import LandingPage from './components/LandingPage';
-import ResumeCreator from './components/ResumeCreator';
-import PageNotFound from './components/PageNotFound'
+import LandingPage from './pages/LandingPage';
+import ResumeCreator from './pages/ResumeCreator';
+import PageNotFound from './pages/PageNotFound'
 import { theme } from './theme';
 import { Provider } from 'react-redux';
 import store  from './store/store';
