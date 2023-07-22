@@ -1,22 +1,21 @@
-import React from "react";
+import { memo } from 'react';
+import React  from "react";
 import './../../../src/App.css';
 import { useSelector } from "react-redux";
 
-export default function TemplateOne() {
+const TemplateOne = () => {
     const resumeData = useSelector(state => state.resumeData);
-    console.log("resumeData is: ", resumeData)
-
+    // console.log("resumeData.experianceList: ", resumeData.experianceList)
     return (
-        <>
             <div className="resume">
                 <header>
                     <h1 className="resume-heading" style={{
-                        opacity: resumeData.user.fullName ? 1 : 0.6
+                        opacity: resumeData.personalInfo.fullName ? 1 : 0.6
                     }}>
-                        {`${resumeData.user.fullName ? resumeData.user.fullName : 'John Doe'} `}
+                        {`${resumeData.personalInfo.fullName ? resumeData.personalInfo.fullName : 'John Doe'} `}
                     </h1>
-                    <p className="resume-subheading" style={{ opacity: resumeData.user.designation ? 1 : .8 }}>
-                        {`${resumeData.user.designation ? resumeData.user.designation : 'Designation'} `}
+                    <p className="resume-subheading" style={{ opacity: resumeData.personalInfo.designation ? 1 : .8 }}>
+                        {`${resumeData.personalInfo.designation ? resumeData.personalInfo.designation : 'Designation'} `}
                     </p>
                 </header>
 
@@ -24,12 +23,12 @@ export default function TemplateOne() {
                     <h2>Address</h2>
                     <div className="content">
                         <div className="item">
-                            <p style={{ opacity: resumeData.user.mobile ? 1 : .5 }}>{resumeData.user.mobile ? resumeData.user.mobile : '956########'}</p>
-                            <p style={{ opacity: resumeData.user.email ? 1 : .5 }}>{resumeData.user.email ? resumeData.user.email : 'yourmailid@mail.com'}</p>
-                            <p style={{ opacity: resumeData.user.city ? 1 : .5 }}>{resumeData.user.city ? resumeData.user.city : 'city'}</p>
-                            <p style={{ opacity: resumeData.user.state ? 1 : .5 }}>{resumeData.user.state ? resumeData.user.state : 'state'}</p>
-                            <p style={{ opacity: resumeData.user.pin ? 1 : .5 }}>{resumeData.user.pin ? resumeData.user.pin : 'pin'}</p>
-                            <p style={{ opacity: resumeData.user.country ? 1 : .5 }}>{resumeData.user.country ? resumeData.user.country : 'country'}</p>
+                            <p style={{ opacity: resumeData.personalInfo.mobile ? 1 : .5 }}>{resumeData.personalInfo.mobile ? resumeData.personalInfo.mobile : '956########'}</p>
+                            <p style={{ opacity: resumeData.personalInfo.email ? 1 : .5 }}>{resumeData.personalInfo.email ? resumeData.personalInfo.email : 'yourmailid@mail.com'}</p>
+                            <p style={{ opacity: resumeData.personalInfo.city ? 1 : .5 }}>{resumeData.personalInfo.city ? resumeData.personalInfo.city : 'city'}</p>
+                            <p style={{ opacity: resumeData.personalInfo.state ? 1 : .5 }}>{resumeData.personalInfo.state ? resumeData.personalInfo.state : 'state'}</p>
+                            <p style={{ opacity: resumeData.personalInfo.pin ? 1 : .5 }}>{resumeData.personalInfo.pin ? resumeData.personalInfo.pin : 'pin'}</p>
+                            <p style={{ opacity: resumeData.personalInfo.country ? 1 : .5 }}>{resumeData.personalInfo.country ? resumeData.personalInfo.country : 'country'}</p>
 
                         </div>
                     </div>
@@ -50,13 +49,12 @@ export default function TemplateOne() {
                     <h2>Experience</h2>
                     <div className="content">
                         <div className="item">
-                            <h3>Front-end Developer</h3>
-                            <p>ABC Company</p>
-                            <p>2018 - Present</p>
-                            <ul>
-                                <li>Developed and maintained responsive web applications using HTML, CSS, and JavaScript.</li>
-                                <li>Collaborated with designers and backend developers to implement UI features.</li>
-                            </ul>
+                            <h3>{resumeData.currenExperience.jobTitle}</h3>
+                            <p>{resumeData.currenExperience.employer}{resumeData.currenExperience.cityAndState ? ', ' : ''}{resumeData.currenExperience.cityAndState}{resumeData.currenExperience.country ? ', ' : ''}{resumeData.currenExperience.country}</p>
+                            <p style={{
+                                marginTop: '1rem'
+                            }}>{`${resumeData.currenExperience.fromDate ? resumeData.currenExperience.fromDate : ''} ${(resumeData.currenExperience.fromDate || resumeData.currenExperience.toDate) ? '-' : ''} ${resumeData.currenExperience.toDate ? resumeData.currenExperience.toDate : ''}`}</p>
+                            <p>{resumeData.currenExperience.description}</p>
                         </div>
                     </div>
                 </section>
@@ -74,9 +72,8 @@ export default function TemplateOne() {
                     </div>
                 </section>
             </div>
-
-
-
-        </>
     )
 }
+
+export default memo(TemplateOne);
+// export default TemplateOne;

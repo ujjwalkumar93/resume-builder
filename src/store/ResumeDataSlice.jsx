@@ -1,19 +1,28 @@
 import {createSlice} from '@reduxjs/toolkit';
 const initialState = {
-  user : {
-  }
+  personalInfo : {
+  },
+  currenExperience : {},
+  experianceList : []
 }
 const resumeDataSlice = createSlice({
     name: "resumeDataSlice",
     initialState,
     reducers: {
-      addInfo(state, action) {
+      addPersonalInfoAction(state, action) {
         const payload = action.payload;
-        state.user = payload // eslint-disable-line
+        state.personalInfo = payload // eslint-disable-line
       },
+      addCurrentExperiance(state, action) {
+        const payload = action.payload;
+        state.currenExperience = payload // eslint-disable-line
+      },
+      addExperianceToList(state, action){
+        state.experianceList.push(action.payload)
+      }
     },
   });
 
-export const {addInfo} = resumeDataSlice.actions;
+export const {addPersonalInfoAction, addCurrentExperiance, addExperianceToList} = resumeDataSlice.actions;
 
 export default resumeDataSlice.reducer;

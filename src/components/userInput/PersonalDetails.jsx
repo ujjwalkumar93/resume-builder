@@ -6,40 +6,25 @@ import {
     useMediaQuery
 } from "@mui/material"
 
-import { useDispatch } from "react-redux";
-import { addInfo } from "../../store/ResumeDataSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addPersonalInfoAction } from "../../store/ResumeDataSlice";
 
 const PersonalDetails = () => {
-    const [designation, setDesignation] = useState(null)
-    const [fullName, setFullName] = useState(null);
-    const [lastName, setLastName] = useState(null);
-    const [city, setCity] = useState(null);
-    const [state, setState] = useState(null);
-    const [mobile, setMobile] = useState(null);
-    const [email, setEmail] = useState(null);
-    const [pin, setPin] = useState(null);
-    const [country, setCountry] = useState(null);
+    const resumeData = useSelector(state => state.resumeData).personalInfo;
+
+    const [designation, setDesignation] = useState(resumeData.designation ? resumeData.designation : '')
+    const [fullName, setFullName] = useState(resumeData.fullName ? resumeData.fullName : '');
+    const [city, setCity] = useState(resumeData.city ? resumeData.city : '');
+    const [state, setState] = useState(resumeData.state ? resumeData.state : '');
+    const [mobile, setMobile] = useState(resumeData.mobile ? resumeData.mobile : '');
+    const [email, setEmail] = useState(resumeData.email ? resumeData.email : '');
+    const [pin, setPin] = useState(resumeData.pin ? resumeData.pin : '');
+    const [country, setCountry] = useState(resumeData.country ? resumeData.country : '');
 
     const dispatch = useDispatch()
 
-    const dataRef = useRef(null);
-
-    useEffect(() => {
-        return () => {
-            saveDataToRedux();
-        }
-    }, [])
-
-    const saveDataToRedux = () => {
-        delete dataRef.current
-        dispatch(addInfo(dataRef))
-        console.log(dataRef)
-    };
-
-
     const data = {
         fullName,
-        lastName,
         designation,
         city,
         state,
@@ -51,48 +36,43 @@ const PersonalDetails = () => {
     const handleFullName = (event) => {
         setFullName(event.target.value);
         data.fullName = event.target.value
-        dispatch(addInfo(data))
+        dispatch(addPersonalInfoAction(data))
     }
 
-    const handleLastName = (event) => {
-        setLastName(event.target.value);
-        data.lastName = event.target.value
-        dispatch(addInfo(data))
-    }
     const handleDesignation = (event) => {
         setDesignation(event.target.value);
         data.designation = event.target.value
-        dispatch(addInfo(data))
+        dispatch(addPersonalInfoAction(data))
     }
     const handleCity = (event) => {
         setCity(event.target.value);
         data.city = event.target.value
-        dispatch(addInfo(data))
+        dispatch(addPersonalInfoAction(data))
     }
     const handleState = (event) => {
         setState(event.target.value);
         data.state = event.target.value
-        dispatch(addInfo(data))
+        dispatch(addPersonalInfoAction(data))
     }
     const handleMobile = (event) => {
         setMobile(event.target.value);
         data.mobile = event.target.value
-        dispatch(addInfo(data))
+        dispatch(addPersonalInfoAction(data))
     }
     const handleEmail = (event) => {
         setEmail(event.target.value);
         data.email = event.target.value
-        dispatch(addInfo(data))
+        dispatch(addPersonalInfoAction(data))
     }
     const handlePin = (event) => {
         setPin(event.target.value);
         data.pin = event.target.value
-        dispatch(addInfo(data))
+        dispatch(addPersonalInfoAction(data))
     }
     const handleCountry = (event) => {
         setCountry(event.target.value);
         data.country = event.target.value
-        dispatch(addInfo(data))
+        dispatch(addPersonalInfoAction(data))
     }
 
 
@@ -114,6 +94,7 @@ const PersonalDetails = () => {
                 <TextField
                     fullWidth
                     required
+                    value={fullName}
                     autoComplete='off'
                     color="secondary"
                     label="Full Name"
@@ -122,6 +103,7 @@ const PersonalDetails = () => {
                 <TextField
                     fullWidth
                     required
+                    value={designation}
                     autoComplete='off'
                     color="secondary"
                     label="Designation"
@@ -132,24 +114,7 @@ const PersonalDetails = () => {
                 <TextField
                     fullWidth
                     required
-                    autoComplete='off'
-                    color="secondary"
-                    label="City"
-                    onChange={handleCity}
-                />
-                <TextField
-                    fullWidth
-                    required
-                    autoComplete='off'
-                    color="secondary"
-                    label="State"
-                    onChange={handleState}
-                />
-            </Stack>
-            <Stack direction={largeScreen ? "row" : "column"} spacing={3} p={1}>
-                <TextField
-                    fullWidth
-                    required
+                    value={mobile}
                     autoComplete='off'
                     color="secondary"
                     label="Mobile"
@@ -158,6 +123,7 @@ const PersonalDetails = () => {
                 <TextField
                     fullWidth
                     required
+                    value={email}
                     autoComplete='off'
                     color="secondary"
                     label="Email"
@@ -169,6 +135,27 @@ const PersonalDetails = () => {
                 <TextField
                     fullWidth
                     required
+                    value={city}
+                    autoComplete='off'
+                    color="secondary"
+                    label="City"
+                    onChange={handleCity}
+                />
+                <TextField
+                    fullWidth
+                    required
+                    value={state}
+                    autoComplete='off'
+                    color="secondary"
+                    label="State"
+                    onChange={handleState}
+                />
+            </Stack>
+            <Stack direction={largeScreen ? "row" : "column"} spacing={3} p={1}>
+                <TextField
+                    fullWidth
+                    required
+                    value={pin}
                     autoComplete='off'
                     color="secondary"
                     label="PIN Code"
@@ -177,6 +164,7 @@ const PersonalDetails = () => {
                 <TextField
                     fullWidth
                     required
+                    value={country}
                     autoComplete='off'
                     color="secondary"
                     label="Country"
