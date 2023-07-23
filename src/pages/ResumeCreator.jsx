@@ -24,7 +24,7 @@ export default function ResumeCreator() {
     const [selectedTemplate, setSelectedTemplate] = useState("option1")
     const steps = [
         'Personal Details',
-        'Experiance',
+        'Experience',
         'Education',
         'Skill',
         'Summery'

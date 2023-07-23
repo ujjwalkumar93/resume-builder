@@ -16,23 +16,41 @@ import {
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
-import ExperianceRow from "../ExperianceRow";
+import ExperianceRow from "../ExperienceRow";
 import { useDispatch, useSelector } from "react-redux";
-import {addCurrentExperiance, addExperianceToList} from "../../store/ResumeDataSlice"
+import {addCurrentExperiance, addExperienceToList} from "../../store/ResumeDataSlice";
+import ExperianceDialog from "../ExperienceDialog";
+import { formatCalenderDate, formatDate } from "../../utilities/DateFormat";
+import {generateRandomId} from '../../utilities/IdGenerator'
 
 const ExperianceDetail = () => {
+    const [openDialog, setOpenDialog] = useState(false);
     const experianceList = useSelector(state => state.resumeData).experianceList;
+    console.log("experianceListz: ", experianceList)
+    const handleAdd = () => {
+        setOpenDialog(true)
+    }
+    const handleClose = () => {
+        setOpenDialog(false)
+    }
+    const handleDialogSave = (data) => {
+        // console.log("+++++<<", data)
+        setOpenDialog(false)
+    }
     return (
         <Box>
             <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} spacing={3} p={1} paddingTop={3}>
-                <Typography  variant="h5"><b>Add your <span style={{ color: '#ff6d05' }}>experiance</span></b></Typography>
-                <Button variant="outlined" color="secondary" 
-                >Add More</Button>
+                <Typography  variant="h5"><b>Add your <span style={{ color: '#ff6d05' }}>experience</span></b></Typography>
+                {
+                    experianceList.length > 0 ? (<Button variant="outlined" color="secondary" onClick={handleAdd}
+                    >Add More</Button>) : null
+                }
+                
             </Stack>
 
            <Divider/>
             {
-                experianceList.length === 0 ? <Experiance /> : (
+                experianceList.length === 0 ? <Experience /> : (
                    // {
                         experianceList.map(row => {
                             return (
@@ -42,13 +60,18 @@ const ExperianceDetail = () => {
                    // }
                 )
             }
-            
+            <ExperianceDialog
+                open={openDialog}
+                pageTitle={"Add Experience"}
+                onClose={handleClose}
+                onSave={handleDialogSave}
+            />
         </Box>
 
     )
 }
 
-const Experiance = () => {
+const Experience = () => {
     const [isChecked, setIsChecked] = useState(false)
     const largeScreen = useMediaQuery(theme => theme.breakpoints.up('md'));
     const [jobTitle, setJobTitle] = useState();
@@ -77,8 +100,9 @@ const Experiance = () => {
     }
 
     const handleSave = () => {
-        dispatch(addExperianceToList(data))
-        // console.log("data is: ", data)
+        data._id = generateRandomId()
+        console.log('id: ', data)
+        dispatch(addExperienceToList(data))
     }
 
     return (
@@ -123,7 +147,7 @@ const Experiance = () => {
                     autoComplete='off'
                     color="secondary"
                     name = {"cityAndState"}
-                    label="City & State"
+                    label="City or State"
                     onChange={ e => {
                         handleOnChange(e)
                         setCityAndState(e.target.value)
@@ -154,9 +178,14 @@ const Experiance = () => {
                     name = {"fromDate"}
                     label="From Date"
                     onChange={e => {
-                        setFromDate(e.target.value)
+                        setFromDate(formatCalenderDate(e.target.value))
                         handleOnChange(e)
                     }}
+                    // InputProps={{
+                    //     inputProps: {
+                    //       max: formatDate(new Date()), // To set the maximum date as today's date
+                    //     },
+                    //   }}
                 />
                 <TextField
                     fullWidth
@@ -169,9 +198,14 @@ const Experiance = () => {
                     label="To Date"
                     name = 'toDate'
                     onChange={e => {
-                        setToDate(e.target.value)
+                        setToDate(formatCalenderDate(e.target.value))
                         handleOnChange(e)
                     }}
+                    // InputProps={{
+                    //     inputProps: {
+                    //       max: formatDate(new Date()), // To set the maximum date as today's date
+                    //     },
+                    //   }}
                 />
             </Stack>            
 
@@ -204,7 +238,7 @@ const Experiance = () => {
                 }}
             />
             </Stack>
-            <Stack direction={'row-reverse'} alignItems={'flex-end'} spacing={3} >
+            <Stack direction={'row-reverse'} alignItems={'flex-end'} spacing={3} marginRight={1}>
                 <Button variant="outlined" endIcon={<SaveIcon />} color="secondary" onClick={handleSave}>
                     Save
                 </Button>
@@ -215,5 +249,4 @@ const Experiance = () => {
         </Paper>
     )
 }
-
 export default ExperianceDetail;

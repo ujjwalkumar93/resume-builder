@@ -17,12 +17,26 @@ const resumeDataSlice = createSlice({
         const payload = action.payload;
         state.currenExperience = payload // eslint-disable-line
       },
-      addExperianceToList(state, action){
+      addExperienceToList(state, action){
         state.experianceList.push(action.payload)
+      },
+      updateExperienceList(state, action){
+        const modifiedExperienceData = state.experianceList.map(data => {
+          // let obj;
+          const payload = action.payload;
+          console.log('payload: ', payload, data)
+          if(data._id === payload._id){
+            return payload
+          }
+          return data
+        })
+        console.log('modifiedExperienceData: ', modifiedExperienceData)
+        return { ...state, experianceList: modifiedExperienceData }
       }
+      
     },
   });
 
-export const {addPersonalInfoAction, addCurrentExperiance, addExperianceToList} = resumeDataSlice.actions;
+export const {addPersonalInfoAction, addCurrentExperiance, addExperienceToList, updateExperienceList} = resumeDataSlice.actions;
 
 export default resumeDataSlice.reducer;
