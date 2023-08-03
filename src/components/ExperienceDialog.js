@@ -13,16 +13,16 @@ import {
 import { useEffect, useState } from 'react'
 import {formatCalenderDate, formatDateToYyyyMmDd} from '../utilities/DateFormat'
 
-export default function ExperianceDialog({ open=false, data = {}, pageTitle, onSave, onClose }) {
+export default function ExperianceDialog({ open=false, isNew = false, data = {}, pageTitle, onSave, onClose }) {
     const [isChecked, setIsChecked] = useState(data.present);
     // const {jobTitle} = data
-    const [jobTitle, setJobTitle] = useState(data.jobTitle ? data.jobTitle : '');
-    const [employer, setEmployer] = useState(data.employer ? data.employer : '');
-    const [city, setCity] = useState(data.cityAndState ? data.cityAndState : '');
-    const [country, setCountry] = useState(data.country ? data.country : '');
-    const [fromDate, setFromDate] = useState(data.fromDate ? formatDateToYyyyMmDd(data.fromDate) : '');
-    const [toDate, setToDate] = useState(data.toDate ? formatDateToYyyyMmDd(data.toDate ): '');
-    const [description, setDescription] = useState(data.description)
+    const [jobTitle, setJobTitle] = useState(data.jobTitle && !isNew ? data.jobTitle : '');
+    const [employer, setEmployer] = useState(data.employer && !isNew ? data.employer : '');
+    const [city, setCity] = useState(data.cityAndState && !isNew ? data.cityAndState : '');
+    const [country, setCountry] = useState(data.country && !isNew ? data.country : '');
+    const [fromDate, setFromDate] = useState(data.fromDate && !isNew ? formatDateToYyyyMmDd(data.fromDate) : '');
+    const [toDate, setToDate] = useState(data.toDate && !isNew ? formatDateToYyyyMmDd(data.toDate ): '');
+    const [description, setDescription] = useState(data.description && !isNew? data.description : '')
 
     const [isDisable, setIsDisable] = useState(false);
 
@@ -34,8 +34,16 @@ export default function ExperianceDialog({ open=false, data = {}, pageTitle, onS
             country,
             fromDate,
             toDate,
+            description,
             _id: data._id
         })
+        // setJobTitle('');
+        // setEmployer('');
+        // setCity('');
+        // setCountry('');
+        // setFromDate('');
+        // setToDate('');
+        // setDescription('');
     }
     useEffect(() => {
         setIsDisable(isChecked)
@@ -122,12 +130,24 @@ export default function ExperianceDialog({ open=false, data = {}, pageTitle, onS
                     value={description}
                     // name = {"jobTitle"}
                     label="Description"
+                    onChange={e => {
+                        setDescription(e.target.value)
+                    }}
                     
                 />
                 </Stack>
             </DialogContent>
             <DialogActions sx={{ p: '1rem' }}>
-                <Button onClick={onClose} color="primary" variant='contained' >
+                <Button onClick={e => {
+                            // setJobTitle('');
+                            // setEmployer('');
+                            // setCity('');
+                            // setCountry('');
+                            // setFromDate('');
+                            // setToDate('');
+                            // setDescription('');
+                            onClose()
+                }} color="primary" variant='contained' >
                     Cancel
                 </Button>
                 <Button onClick={handleSave} color="secondary" variant='contained' sx={{

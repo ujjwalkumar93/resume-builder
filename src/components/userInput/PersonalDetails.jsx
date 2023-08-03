@@ -20,6 +20,7 @@ const PersonalDetails = () => {
     const [email, setEmail] = useState(resumeData.email ? resumeData.email : '');
     const [pin, setPin] = useState(resumeData.pin ? resumeData.pin : '');
     const [country, setCountry] = useState(resumeData.country ? resumeData.country : '');
+    const [dob, setDob] = useState('');
 
     const dispatch = useDispatch()
 
@@ -31,7 +32,8 @@ const PersonalDetails = () => {
         mobile,
         email,
         country,
-        pin
+        pin,
+        dob
     }
     const handleFullName = (event) => {
         setFullName(event.target.value);
@@ -75,21 +77,21 @@ const PersonalDetails = () => {
         dispatch(addPersonalInfoAction(data))
     }
 
+    const handleDob = (event) => {
+        setDob(event.target.value);
+        data.dob = event.target.value;
+        dispatch(addPersonalInfoAction(data))
+    }
+
 
 
     const largeScreen = useMediaQuery(theme => theme.breakpoints.up('md'));
     return (
-        <>
-            <Typography p={1} variant="h5" paddingTop={3}><b>Let's start with your <span style={{ color: '#ff6d05' }}>header</span></b></Typography>
-            {/* <Stack direction={largeScreen ? "row" : "column"} spacing={3} p={1}>
-                <TextField
-                    required
-                    autoComplete='off'
-                    color="secondary"
-                    label="Designation"
-                    onChange={handleDesignation}
-                />
-            </Stack> */}
+        <div sx={{
+            overflowX: 'hidden'
+        }}>
+            <Typography variant="h6" paddingTop={3} paddingLeft={1}><b>Let's start with your <span style={{ color: '#ff6d05' }}>personal detail</span></b></Typography>
+
             <Stack direction={largeScreen ? "row" : "column"} spacing={3} p={1}>
                 <TextField
                     fullWidth
@@ -171,7 +173,25 @@ const PersonalDetails = () => {
                     onChange={handleCountry}
                 />
             </Stack>
-        </>
+            <Stack p={1}>
+                <TextField
+                    label="Date Of Birth"
+                    variant="outlined"
+                    type="date"
+                    autoComplete='off'
+                    // fullWidth
+                    color='secondary'
+                    value={dob}
+                    onChange={handleDob}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    sx ={{
+                        width: '50%'
+                    }}
+                />
+            </Stack>
+        </div>
     )
 }
 

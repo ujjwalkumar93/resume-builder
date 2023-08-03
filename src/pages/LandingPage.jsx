@@ -6,10 +6,12 @@ import {
     Typography,
     Grid,
     Button,
+    useTheme
 } from "@mui/material";
 
 
 export default function LandingPage() {
+    const theme = useTheme();
     return (
         <Box>
             <Grid container spacing={0}>
@@ -23,6 +25,9 @@ export default function LandingPage() {
                     flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
+                    [theme.breakpoints.down("sm")]: { // Set font size for small screens
+                        fontSize: "1.5rem",
+                    },
                 }} >
                     <Typewriter
                         onInit={(typewriter) => {
@@ -34,7 +39,14 @@ export default function LandingPage() {
                                 .pauseFor(1000)
                                 .deleteAll()
                                 .typeString("Easy to use")
+                                .pauseFor(1000)
+                                .deleteAll()
+                                .typeString("Enter your details")
+                                .pauseFor(1000)
+                                .deleteAll()
+                                .typeString("Download the pdf")
                                 .start();
+                                
                         }}
                     />
                     <Button

@@ -16,7 +16,7 @@ import {
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
-import ExperianceRow from "../ExperienceRow";
+import ExperienceRow from "../ExperienceRow";
 import { useDispatch, useSelector } from "react-redux";
 import {addCurrentExperiance, addExperienceToList} from "../../store/ResumeDataSlice";
 import ExperianceDialog from "../ExperienceDialog";
@@ -26,38 +26,39 @@ import {generateRandomId} from '../../utilities/IdGenerator'
 const ExperianceDetail = () => {
     const [openDialog, setOpenDialog] = useState(false);
     const experianceList = useSelector(state => state.resumeData).experianceList;
-    console.log("experianceListz: ", experianceList)
+    // console.log("experianceListz: ", experianceList)
     const handleAdd = () => {
         setOpenDialog(true)
     }
     const handleClose = () => {
         setOpenDialog(false)
     }
+    const dispatch = useDispatch()
     const handleDialogSave = (data) => {
-        // console.log("+++++<<", data)
+        data._id = generateRandomId()
+        dispatch(addExperienceToList(data))
         setOpenDialog(false)
     }
+    const isLargeScreen = useMediaQuery(theme => theme.breakpoints.up('md'));
     return (
         <Box>
-            <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} spacing={3} p={1} paddingTop={3}>
-                <Typography  variant="h5"><b>Add your <span style={{ color: '#ff6d05' }}>experience</span></b></Typography>
+            <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} spacing={3}  paddingTop={3} paddingBottom={1}>
+                <Typography  variant={isLargeScreen ? "h6" : 'body1'} paddingLeft={1}><b>Add your <span style={{ color: '#ff6d05' }}>experience</span></b></Typography>
                 {
-                    experianceList.length > 0 ? (<Button variant="outlined" color="secondary" onClick={handleAdd}
-                    >Add More</Button>) : null
+                    experianceList.length > 0 ? (
+                    <Button variant="outlined" color="secondary" onClick={handleAdd}
+                    >Add More</Button>
+                    ) : null
                 }
                 
             </Stack>
-
-           <Divider/>
             {
                 experianceList.length === 0 ? <Experience /> : (
-                   // {
                         experianceList.map(row => {
                             return (
-                                <ExperianceRow data={row} />
+                                <ExperienceRow data={row} islargeScreen={isLargeScreen}/>
                             )
                         })
-                   // }
                 )
             }
             <ExperianceDialog
@@ -73,7 +74,7 @@ const ExperianceDetail = () => {
 
 const Experience = () => {
     const [isChecked, setIsChecked] = useState(false)
-    const largeScreen = useMediaQuery(theme => theme.breakpoints.up('md'));
+    const isLargeScreen = useMediaQuery(theme => theme.breakpoints.up('md'));
     const [jobTitle, setJobTitle] = useState();
     const [employer, setEmployer] = useState();
     const [cityAndState, setCityAndState] = useState();
@@ -101,19 +102,18 @@ const Experience = () => {
 
     const handleSave = () => {
         data._id = generateRandomId()
-        console.log('id: ', data)
         dispatch(addExperienceToList(data))
     }
 
     return (
-        <Paper elevation={3} sx={{
-            paddingLeft: '3rem',
-            // paddingRight: '3rem',
+        <Paper  sx={{
+            paddingLeft: '1rem',
+            paddingRight: '1rem',
             paddingTop: '2rem',
             paddingBottom: '2rem',
-            marginRight: '3rem'
+            //marginRight: '1rem'
         }}>
-            <Stack direction={largeScreen ? "row" : "column"} spacing={3} p={1}>
+            <Stack direction={isLargeScreen ? "row" : "column"} spacing={3} p={1}>
                 <TextField
                     fullWidth
                     required
@@ -139,7 +139,7 @@ const Experience = () => {
                     }}
                 />
             </Stack>
-            <Stack direction={largeScreen ? "row" : "column"} spacing={3} p={1}>
+            <Stack direction={isLargeScreen ? "row" : "column"} spacing={3} p={1}>
                 <TextField
                     fullWidth
                     required
@@ -167,7 +167,7 @@ const Experience = () => {
                     }}
                 />
             </Stack>
-            <Stack direction={largeScreen ? "row" : "column"} spacing={3} p={1}>
+            <Stack direction={isLargeScreen ? "row" : "column"} spacing={3} p={1}>
                 <TextField
                     fullWidth
                     required

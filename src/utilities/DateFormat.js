@@ -17,7 +17,7 @@ const formatDateToYyyyMmDd = (date) => {
     // const month = (date.getMonth() + 1).toString().padStart(2, '0');
     // const day = date.getDate().toString().padStart(2, '0');
     // return `${year}-${month}-${day}`;
-    console.log("date.split('/').reverse().join('-'): ", date.split('/').reverse().join('-'))
-    return date.split('/').reverse().join('-')
+    //console.log("date.split('/').reverse().join('-'): ", date.split('/').reverse().join('-'))
+    return 
   }
 export {formatDate, formatCalenderDate, formatDateToYyyyMmDd}

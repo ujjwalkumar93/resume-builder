@@ -12,7 +12,7 @@ import {
     Divider,
     useMediaQuery,
     Card,
-    MenuItem, Select, InputLabel, FormControl
+    MenuItem, Select, InputLabel, FormControl, useTheme, ButtonGroup
 } from "@mui/material"
 
 import PersonalDetails from "../components/userInput/PersonalDetails";
@@ -20,8 +20,10 @@ import ExperianceDetail from "../components/userInput/ExperianceDetail";
 import TemplateOne from "../components/resumeTemplate/TemplateOne";
 import ComponentSelector from "../utilities/ComponentSelector"
 export default function ResumeCreator() {
+    const theme = useTheme();
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedTemplate, setSelectedTemplate] = useState("option1")
+    const isMobileScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
     const steps = [
         'Personal Details',
         'Experience',
@@ -36,13 +38,14 @@ export default function ResumeCreator() {
                     <Paper
                         sx={{
                             paddingTop: "3rem",
-                            paddingLeft: '3rem',
-                            minHeight: '100vh'
+                            minHeight: '100vh',
+                            padding: '1rem',
+                            // [theme.breakpoints.down("sm")]: {
+                            //     fontSize: "1.5rem",
+                            //   },
                         }}
                     >
-                        <Stepper activeStep={currentPage - 1} alternativeLabel xs={{
-                            paddingBottom: "3rem"
-                        }}>
+                        <Stepper activeStep={currentPage - 1} alternativeLabel >
                             {steps.map((label) => (
                                 <Step key={label}>
                                     <StepLabel>{label}</StepLabel>
@@ -50,7 +53,9 @@ export default function ResumeCreator() {
                             ))}
                         </Stepper>
 
-                        <Divider />
+                        <Divider sx={{
+                            marginTop: '1rem'
+                        }}/>
                         <ComponentSelector
                             pageIndex={currentPage}
                         />
@@ -61,7 +66,7 @@ export default function ResumeCreator() {
                         }} />
 
                         <Stack spacing={3} direction={'row-reverse'} sx={{
-                            padding: "2rem",
+                            padding: "1rem",
                             marginTop: "2rem"
                         }}>
                             <Button
@@ -89,17 +94,16 @@ export default function ResumeCreator() {
 
                     </Paper>
                 </Grid>
-                <Grid item xs={12} sm={6} md={6}>
-                    <Card >
+                <Grid item xs={12} sm={6} md={6} sx={{ display: isMobileScreen ? "none" : "block" }}>
+                    <Card>
                         <Stack direction={'row-reverse'} spacing={3} alignItems="center" padding={1} marginTop={1} marginBottom={1} marginLeft={3} sx={{
-                           // bgcolor: '#151a21',
+                            // bgcolor: '#151a21',
                             bgcolor: '#333'
-
                         }}>
                             <Button variant="contained" color="secondary" sx={{
                                 color: "#ffffff"
                             }}>Download</Button>
-                            
+
                             <FormControl color="secondary" sx={{ m: 1, minWidth: 120 }} size="small" >
                                 <Select
                                     labelId="label"

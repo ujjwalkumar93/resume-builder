@@ -13,60 +13,59 @@ import {
     Dialog, DialogTitle, DialogContent, DialogActions, TableContainer, Table, TableBody
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import ExperienceDialog from './ExperienceDialog';
+import EducationDialog from './EducationDialog';
 import { useDispatch } from 'react-redux';
-import { updateExperienceList, deleteExperiance } from '../store/ResumeDataSlice';
+import { updateEducationList, deleteEducation } from '../store/ResumeDataSlice';
 import CloseIcon from '@mui/icons-material/Close';
 import { Margin } from '@mui/icons-material';
 
-export default function ExperienceRow({ data, islargeScreen }) {
+export default function EducationRow({ data, islargeScreen }) {
+    console.log("islargeScreen: ", islargeScreen)
     const [open, setOpen] = useState(false);
     const [openAlert, setOpenAlert] = useState(false);
-    const [expereenceId, setExperienceId] = useState();
+    const [EducationId, setrEducationId] = useState();
     const dispatch = useDispatch()
 
     const handleUpdate = (data) => {
-        dispatch(updateExperienceList(data))
+        dispatch(updateEducationList(data))
         setOpen(false)
     }
 
     const handleDelete = (event) => {
-        dispatch(deleteExperiance({
-            _id: expereenceId
-        }))
+        // dispatch(deleteExperiance({
+        //     _id: EducationId
+        // }))
         setOpenAlert(false);
-
     }
     return (
         <Box sx={{
             padding: '1rem',
         }}>
-
             {
                 islargeScreen ? (
                     <TableContainer>
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell  sx={{ color: '#ff9d54', width: "25%", flex: 1 }}>Job Title</TableCell>
-                                    <TableCell  sx={{ color: '#ff9d54', width: "25%", flex: 1 }}>Employer</TableCell>
-                                    <TableCell  sx={{ color: '#ff9d54', width: "35%", flex: 1 }}>Dates</TableCell>
+                                    <TableCell  sx={{ color: '#ff9d54', width: "25%", flex: 1 }}>Course</TableCell>
+                                    <TableCell  sx={{ color: '#ff9d54', width: "25%", flex: 1 }}>University/Board</TableCell>
+                                    <TableCell  sx={{ color: '#ff9d54', width: "35%", flex: 1 }}>Passing year</TableCell>
+                                    {/* <TableCell  sx={{ color: '#ff9d54', width: "35%", flex: 1 }}>To</TableCell> */}
                                     <TableCell  sx={{ color: '#ff9d54', width: "15%", flex: 1 }}></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 <TableRow>
-                                    <TableCell >{data.jobTitle}</TableCell>
-                                    <TableCell >{data.employer}</TableCell>
-                                    <TableCell >{`${data.fromDate} - ${!data.present ? data.toDate : "Present"
-                                        }`}</TableCell>
+                                    <TableCell >{data.course}</TableCell>
+                                    <TableCell >{data.univ}</TableCell>
+                                    <TableCell >{`${!data.pursuing ? data.passingYear : "pursuing"}`}</TableCell>
                                     <TableCell align="right">
                                         <Stack direction="row-reverse" spacing={2}>
                                             <Button
                                                 variant="outlined"
                                                 onClick={() => {
                                                     setOpenAlert(true);
-                                                    setExperienceId(data._id);
+                                                    setrEducationId(data._id);
                                                 }}
                                             >
                                                 Delete
@@ -83,15 +82,15 @@ export default function ExperienceRow({ data, islargeScreen }) {
                 ) : (
                     <Card>
                         <CardContent>
-                            <Typography variant="h6">{data.jobTitle}</Typography>
-                            <Typography variant="body1">{data.employer}</Typography>
-                            <Typography variant="body2">{`${data.fromDate}  -  ${!data.present ? data.toDate : 'Present'}`}</Typography>
+                            <Typography variant="h6">{data.course}</Typography>
+                            <Typography variant="body1">{data.univ}</Typography>
+                            <TableCell >{`${!data.pursuing ? data.passingYear : "pursuing"}`}</TableCell>
                         </CardContent>
                         <CardActions sx={{ justifyContent: "flex-end" }}>
                             <Button variant="contained" color="primary" onClick={() => setOpen(true)}>Edit</Button>
                             <Button variant="outlined" color="secondary" onClick={() => {
                                 setOpenAlert(true)
-                                setExperienceId(data._id)
+                                setrEducationId(data._id)
                             }}>Delete</Button>
                         </CardActions>
                     </Card>
@@ -101,16 +100,15 @@ export default function ExperienceRow({ data, islargeScreen }) {
 
 
 
-            <ExperienceDialog open={open} data={data} onClose={() => setOpen(false)} onSave={handleUpdate} />
+            <EducationDialog open={open} data={data} onClose={() => setOpen(false)} onSave={handleUpdate} />
             {
-
                 <Dialog open={openAlert} onClose={() => setOpenAlert(false)}>
                     <DialogTitle>Warning</DialogTitle>
-                    <DialogContent>Are you sure to delete experience </DialogContent>
+                    <DialogContent>Are you sure to delete education detail </DialogContent>
                     <DialogActions>
                         <Button onClick={() => {
                             setOpenAlert(false)
-                            setExperienceId(null)
+                            setrEducationId(null)
                         }} color="primary">
                             No
                         </Button>
